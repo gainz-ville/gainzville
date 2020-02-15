@@ -1,2 +1,2 @@
-# gainzville
+# Gainzville
 The secret to gainz

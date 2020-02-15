@@ -1,0 +1,18 @@
+﻿<Project>
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.50" PrivateAssets="all" />
+  </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard21</TargetFramework>
+    <Company>Gainzville Ltd</Company>
+    <Copyright>Copyright © Gainzville</Copyright>
+    <Authors>Peter Gray, Patryk Szczerbinski, Michael Sansoni</Authors>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <RepositoryUrl>https://github.com/Gainz-ville/gainzville</RepositoryUrl>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GeneratePackageOnBuild Condition="$(Configuration) == 'Release'">false</GeneratePackageOnBuild>
+  </PropertyGroup>
+</Project>
