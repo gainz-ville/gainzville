@@ -3,16 +3,19 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.50" PrivateAssets="all" />
   </ItemGroup>
   <PropertyGroup>
-    <TargetFramework>netstandard21</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Company>Gainzville Ltd</Company>
     <Copyright>Copyright © Gainzville</Copyright>
     <Authors>Peter Gray, Patryk Szczerbinski, Michael Sansoni</Authors>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <RepositoryUrl>https://github.com/Gainz-ville/gainzville</RepositoryUrl>
     <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild Condition="$(Configuration) == 'Release'">false</GeneratePackageOnBuild>
+    <RestoreFallbackFolders>clear</RestoreFallbackFolders>
+    <BlazorVersion>3.2.0-preview1.20073.1</BlazorVersion>
   </PropertyGroup>
 </Project>
