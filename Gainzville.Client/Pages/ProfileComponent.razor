@@ -1,0 +1,46 @@
+﻿@page "/profiles"
+
+@using Gainzville.Shared
+@using Gainzville.Client.Services
+@inject IDataService Service
+
+<h1>Profiles</h1>
+
+<p>This component gets gainz competitors.</p>
+
+@if (profiles == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Height (cm)</th>
+                <th>DOB</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var profile in profiles)
+            {
+            <tr>
+                <td>@profile.Name</td>
+                <td>@profile.Height</td>
+                <td>@profile.DateOfBirth.ToShortDateString()</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Gainzville.Shared.Profile> profiles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        profiles = await Service.GetProfiles();
+    }
+
+}

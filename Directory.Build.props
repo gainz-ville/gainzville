@@ -17,5 +17,6 @@
     <GeneratePackageOnBuild Condition="$(Configuration) == 'Release'">false</GeneratePackageOnBuild>
     <RestoreFallbackFolders>clear</RestoreFallbackFolders>
     <BlazorVersion>3.2.0-preview1.20073.1</BlazorVersion>
+    <RuntimeFrameworkVersion>3.1.0</RuntimeFrameworkVersion>
   </PropertyGroup>
 </Project>

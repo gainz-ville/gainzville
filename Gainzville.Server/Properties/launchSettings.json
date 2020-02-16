@@ -16,7 +16,8 @@
       }
     },
     "Gainzville.Server": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "applicationUrl": "https://localhost:5050"
     }
   }
 }

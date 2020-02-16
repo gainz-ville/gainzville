@@ -1,6 +1,8 @@
 ﻿@page "/fetchdata"
 @using Gainzville.Shared
+@using Gainzville.Client.Services
 @inject HttpClient Http
+@inject IDataService Service
 
 <h1>Weather forecast</h1>
 
@@ -40,7 +42,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetJsonAsync<WeatherForecast[]>("WeatherForecast");
+        forecasts = await Service.GetWeatherForecasts();
     }
 
 }
