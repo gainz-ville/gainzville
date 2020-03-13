@@ -1,3 +1,4 @@
+using Gainzville.Client.Services;
 using Gainzville.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using System.Linq;
+using System;
 
 namespace Gainzville.Server
 {
@@ -32,6 +34,7 @@ namespace Gainzville.Server
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = this.Configuration.GetConnectionString("DefaultConnection");
+            var devMode = this.Configuration.GetValue<bool>("DevMode");
 
             services.AddMvc();
             services.AddResponseCompression(opts =>
@@ -40,10 +43,21 @@ namespace Gainzville.Server
                     new[] { "application/octet-stream" });
             });
 
-            // Create the db context and service in a scoped lifetime for the app
-            services.AddDbContext<GainzDbContext>(
-                options => options.UseSqlServer(connectionString),
-                ServiceLifetime.Scoped);
+            if (devMode)
+            {
+                Console.WriteLine("Running in Dev Mode.");
+
+                services.AddSingleton<IDataService, FakeDataService>();
+            }
+            else
+            {
+                Console.WriteLine("Running in Prod Mode.");
+
+                // Create the db context and service in a scoped lifetime for the app
+                services.AddDbContext<GainzDbContext>(
+                    options => options.UseSqlServer(connectionString),
+                    ServiceLifetime.Scoped);
+            }
 
         }
 

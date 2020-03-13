@@ -14,7 +14,7 @@ namespace Gainzville.Server
         {
             var host = BuildWebHost(args);
 
-            CreateDbIfNotExists(host);
+            //CreateDbIfNotExists(host);
 
             host.Run();
         }
