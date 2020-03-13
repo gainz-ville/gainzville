@@ -33,6 +33,13 @@ namespace Gainzville.Database
                     },
                     new Profile
                     {
+                        Name = "Patryk Szczerbinski",
+                        DateOfBirth = new DateTime(1993, 11, 14),
+                        Aim = "To cut all the gainz",
+                        Height = 171,
+                    },
+                    new Profile
+                    {
                         Name = "Michael Sansoni",
                         DateOfBirth = new DateTime(1980, 1, 1),
                         Aim = "To get no gainz",
