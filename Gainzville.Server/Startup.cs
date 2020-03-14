@@ -47,7 +47,7 @@ namespace Gainzville.Server
             {
                 Console.WriteLine("Running in Dev Mode.");
 
-                services.AddTransient<IDataService, FakeDataService>();
+                services.AddSingleton<IDataService, FakeDataService>();
             }
             else
             {
