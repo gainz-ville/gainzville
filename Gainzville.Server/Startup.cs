@@ -47,7 +47,7 @@ namespace Gainzville.Server
             {
                 Console.WriteLine("Running in Dev Mode.");
 
-                services.AddSingleton<IDataService, FakeDataService>();
+                services.AddTransient<IDataService, FakeDataService>();
             }
             else
             {
@@ -73,7 +73,7 @@ namespace Gainzville.Server
             }
 
             app.UseCors(policy =>
-                policy.WithOrigins("http://localhost:80", "https://localhost:8080")
+                policy.WithOrigins("http://localhost:80", "http://localhost:8080")
                 .AllowAnyMethod()
                 .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization)
                 .AllowCredentials());

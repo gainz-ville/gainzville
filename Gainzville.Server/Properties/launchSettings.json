@@ -17,7 +17,7 @@
     },
     "Gainzville.Server": {
       "commandName": "Project",
-      "applicationUrl": "https://localhost:5050"
+      "applicationUrl": "http://localhost:5050"
     },
     "Docker": {
       "commandName": "Docker",
