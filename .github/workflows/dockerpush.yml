@@ -5,6 +5,7 @@ on:
     # Publish `master` as Docker `latest` image.
     branches:
       - master
+      - deployment
 
     # Publish `v1.2.3` tags as releases.
     tags:
@@ -14,6 +15,7 @@ on:
   pull_request:
 
 env:
+  DROPLET_NAME: gainzville1
   CLIENT_IMAGE_NAME: gainzville
   SERVER_IMAGE_NAME: gainzville-server
 
@@ -30,3 +32,29 @@ jobs:
 
       - name: Build server image
         run: docker build . --file DockerfileServer --tag $SERVER_IMAGE_NAME
+      
+      - name: SSH to droplet
+        uses: digitalocean/action-doctl@master
+        env: 
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+        with:
+          args: compute shh $DROPLET_NAME
+          
+      - name: Clean client container 
+        run: docker ps -q --filter "name=${CLIENT_IMAGE_NAME}" | grep -q . && docker stop ${CLIENT_IMAGE_NAME} && docker rm -fv ${CLIENT_IMAGE_NAME} && docker rmi -f ${CLIENT_IMAGE_NAME}
+      
+      - name: Clean server container 
+        run: docker ps -q --filter "name=${SERVER_IMAGE_NAME}" | grep -q . && docker stop ${SERVER_IMAGE_NAME} && docker rm -fv ${SERVER_IMAGE_NAME} && docker rmi -f ${SERVER_IMAGE_NAME}
+      
+      - name: Run client container
+        run: docker run --name ${CLIENT_IMAGE_NAME} -p 80:80 -d ${CLIENT_IMAGE_NAME}
+        
+      - name: Run server container
+        run: docker run --name ${SERVER_IMAGE_NAME} -p 5050:80 -d ${SERVER_IMAGE_NAME}
+      
+      - name: Exit droplet
+        run: exit
+      
+      
+
+          
