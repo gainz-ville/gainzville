@@ -1,6 +1,6 @@
 ﻿<Project>
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.50" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.1.68" PrivateAssets="all" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -17,5 +17,6 @@
     <GeneratePackageOnBuild Condition="$(Configuration) == 'Release'">false</GeneratePackageOnBuild>
     <RestoreFallbackFolders>clear</RestoreFallbackFolders>
     <BlazorVersion>3.2.0-preview1.20073.1</BlazorVersion>
+    <RuntimeFrameworkVersion>3.1.0</RuntimeFrameworkVersion>
   </PropertyGroup>
 </Project>

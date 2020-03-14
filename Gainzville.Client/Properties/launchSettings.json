@@ -16,7 +16,8 @@
       }
     },
     "Gainzville.Client": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "applicationUrl": "https://localhost:8080"
     }
   }
 }

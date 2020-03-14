@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Data\SampleWeatherData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Data\SampleWeatherData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="$(BlazorVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="$(BlazorVersion)" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="$(BlazorVersion)" PrivateAssets="all" />
@@ -14,4 +22,9 @@
     <ProjectReference Include="..\Gainzville.Shared\Gainzville.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="..\Gainzville.Client\wwwroot\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

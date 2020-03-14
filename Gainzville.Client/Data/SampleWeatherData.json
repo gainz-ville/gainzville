@@ -1,0 +1,32 @@
+﻿[
+    {
+        "date": "2020-02-16T19:47:17.145829+00:00",
+        "temperatureC": 16,
+        "summary": "Balmy",
+        "temperatureF": 60
+    },
+    {
+        "date": "2020-02-17T19:47:17.1458432+00:00",
+        "temperatureC": 39,
+        "summary": "Mild",
+        "temperatureF": 102
+    },
+    {
+        "date": "2020-02-18T19:47:17.1458466+00:00",
+        "temperatureC": 20,
+        "summary": "Chilly",
+        "temperatureF": 67
+    },
+    {
+        "date": "2020-02-19T19:47:17.1458728+00:00",
+        "temperatureC": 19,
+        "summary": "Freezing",
+        "temperatureF": 66
+    },
+    {
+        "date": "2020-02-20T19:47:17.1458772+00:00",
+        "temperatureC": 5,
+        "summary": "Balmy",
+        "temperatureF": 40
+    }
+]
