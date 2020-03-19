@@ -36,6 +36,7 @@ namespace Gainzville.Server
             var connectionString = this.Configuration.GetConnectionString("DefaultConnection");
             var devMode = this.Configuration.GetValue<bool>("DevMode");
 
+            services.AddCors();
             services.AddMvc();
             services.AddResponseCompression(opts =>
             {
@@ -72,15 +73,14 @@ namespace Gainzville.Server
                 app.UseBlazorDebugging();
             }
 
-            app.UseCors(policy =>
-                policy.WithOrigins("http://localhost", "http://gainzville.co.uk")
-                .AllowAnyMethod()
-                .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization)
-                .AllowCredentials());
-
             app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Client.Program>();
 
+            app.UseCors(policy => policy
+                .WithOrigins("http://gainzville.co.uk", "http://gainzville.co.uk:80", "http://gainzville.co.uk:5050", "http://localhost", "http://localhost:80", "http://localhost:5050")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
