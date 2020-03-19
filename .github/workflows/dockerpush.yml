@@ -18,6 +18,7 @@ env:
   DROPLET_NAME: gainzville1
   CLIENT_IMAGE_NAME: gainzville
   SERVER_IMAGE_NAME: gainzville-server
+  DOCKER_TAG: docker.pkg.github.com/${{ github.repository }}
   VERSION: latest
 
 jobs:
@@ -46,14 +47,14 @@ jobs:
       - name: Push client image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          CLIENT_IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$CLIENT_IMAGE_NAME
+          CLIENT_IMAGE_ID=$DOCKER_TAG/$CLIENT_IMAGE_NAME
           docker tag $CLIENT_IMAGE_NAME $CLIENT_IMAGE_ID:$VERSION
           docker push $CLIENT_IMAGE_ID:$VERSION
         
       - name: Push server image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          SERVER_IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$SERVER_IMAGE_NAME
+          SERVER_IMAGE_ID=$DOCKER_TAG/$SERVER_IMAGE_NAME
           docker tag $SERVER_IMAGE_NAME $SERVER_IMAGE_ID:$VERSION
           docker push $SERVER_IMAGE_ID:$VERSION
           
@@ -72,25 +73,25 @@ jobs:
       - name: Pull and run client
         uses: appleboy/ssh-action@master
         with:
-          envs: CLIENT_IMAGE_NAME
+          envs: CLIENT_IMAGE_NAME,DOCKER_TAG
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
           key: ${{ secrets.DROPLET_PRIVATE }} 
           script: |
             docker login docker.pkg.github.com --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
-            docker pull docker.pkg.github.com/gainz-ville/gainzville/$CLIENT_IMAGE_NAME
-            docker run --name $CLIENT_IMAGE_NAME -p 80:80 -d $CLIENT_IMAGE_NAME
+            docker pull $DOCKER_TAG/$CLIENT_IMAGE_NAME
+            docker run --name $DOCKER_TAG/$CLIENT_IMAGE_NAME -p 80:80 -d $CLIENT_IMAGE_NAME
             
       - name: Pull and run server
         uses: appleboy/ssh-action@master
         with:
-          envs: SERVER_IMAGE_NAME
+          envs: SERVER_IMAGE_NAME,DOCKER_TAG
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
           key: ${{ secrets.DROPLET_PRIVATE }} 
           script: |
             docker login docker.pkg.github.com --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
-            docker pull docker.pkg.github.com/gainz-ville/gainzville/$SERVER_IMAGE_NAME
-            docker run --name $SERVER_IMAGE_NAME -p 80:80 -d $SERVER_IMAGE_NAME
+            docker pull $DOCKER_TAG/$SERVER_IMAGE_NAME
+            docker run --name $DOCKER_TAG/$SERVER_IMAGE_NAME -p 5050:80 -d $SERVER_IMAGE_NAME
