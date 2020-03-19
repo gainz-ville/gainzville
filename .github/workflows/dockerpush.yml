@@ -78,6 +78,7 @@ jobs:
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
           key: ${{ secrets.DROPLET_PRIVATE }} 
           script: |
+            docker login docker.pkg.github.com --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
             docker pull docker.pkg.github.com/gainz-ville/gainzville/$CLIENT_IMAGE_NAME
             docker run --name $CLIENT_IMAGE_NAME -p 80:80 -d $CLIENT_IMAGE_NAME
             
@@ -90,5 +91,6 @@ jobs:
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
           key: ${{ secrets.DROPLET_PRIVATE }} 
           script: |
+            docker login docker.pkg.github.com --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
             docker pull docker.pkg.github.com/gainz-ville/gainzville/$SERVER_IMAGE_NAME
             docker run --name $SERVER_IMAGE_NAME -p 80:80 -d $SERVER_IMAGE_NAME
