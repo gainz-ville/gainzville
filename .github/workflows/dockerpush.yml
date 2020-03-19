@@ -82,7 +82,7 @@ jobs:
           script: |
             docker login docker.pkg.github.com --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
             docker pull $DOCKER_TAG/$CLIENT_IMAGE_NAME
-            docker run --name $DOCKER_TAG/$CLIENT_IMAGE_NAME -p 80:80 -d $DOCKER_TAG/$CLIENT_IMAGE_NAME
+            docker run --name $CLIENT_IMAGE_NAME -p 80:80 -d $DOCKER_TAG/$CLIENT_IMAGE_NAME
             
       - name: Pull and run server
         uses: appleboy/ssh-action@master
@@ -95,4 +95,4 @@ jobs:
           script: |
             docker login docker.pkg.github.com --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
             docker pull $DOCKER_TAG/$SERVER_IMAGE_NAME
-            docker run --name $DOCKER_TAG/$SERVER_IMAGE_NAME -p 5050:80 -d $DOCKER_TAG/$SERVER_IMAGE_NAME
+            docker run --name $SERVER_IMAGE_NAME -p 5050:80 -d $DOCKER_TAG/$SERVER_IMAGE_NAME
