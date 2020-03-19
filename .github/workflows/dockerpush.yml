@@ -51,15 +51,13 @@ jobs:
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
           CLIENT_IMAGE_ID=$DOCKER_TAG/$CLIENT_IMAGE_NAME
-          docker tag $CLIENT_IMAGE_NAME $CLIENT_IMAGE_ID:$VERSION
-          docker push $CLIENT_IMAGE_ID:$VERSION
+          docker push $CLIENT_IMAGE_NAME:$VERSION
         
       - name: Push server image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
           SERVER_IMAGE_ID=$DOCKER_TAG/$SERVER_IMAGE_NAME
-          docker tag $SERVER_IMAGE_NAME $SERVER_IMAGE_ID:$VERSION
-          docker push $SERVER_IMAGE_ID:$VERSION
+          docker push $SERVER_IMAGE_NAME:$VERSION
           
 #     - name: Clean container
 #        uses: appleboy/ssh-action@master
