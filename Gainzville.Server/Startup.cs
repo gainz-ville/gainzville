@@ -73,7 +73,7 @@ namespace Gainzville.Server
             }
 
             app.UseCors(policy =>
-                policy.WithOrigins("http://localhost:80", "http://localhost:8080")
+                policy.WithOrigins("http://localhost", "http://gainzville.co.uk")
                 .AllowAnyMethod()
                 .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization)
                 .AllowCredentials());
