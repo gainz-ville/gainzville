@@ -18,6 +18,9 @@ env:
   DROPLET_NAME: gainzville1
   CLIENT_IMAGE_NAME: gainzville
   SERVER_IMAGE_NAME: gainzville-server
+  CLIENT_IMAGE_ID: docker.pkg.github.com/${{ github.repository }}/$CLIENT_IMAGE_NAME
+  SERVER_IMAGE_ID: docker.pkg.github.com/${{ github.repository }}/$SERVER_IMAGE_NAME
+  VERSION: latest
 
 jobs:
   push:
@@ -54,12 +57,14 @@ jobs:
       - name: Push client image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          docker push ${CLIENT_IMAGE_NAME}
+          docker tag image $CLIENT_IMAGE_ID:$VERSION
+          docker push $CLIENT_IMAGE_ID:$VERSION
         
       - name: Push server image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          docker push ${SERVER_IMAGE_NAME}
+          docker tag image $SERVER_IMAGE_ID:$VERSION
+          docker push $SERVER_IMAGE_ID:$VERSION
           
       - name: Pull client image
         uses: garygrossgarten/github-action-ssh@release
