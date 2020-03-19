@@ -13,7 +13,11 @@ namespace Gainzville.Client.Services
         public DataService(HttpClient httpClient)
         {
             this.HttpClient = httpClient;
+#if DEBUG
             this.HttpClient.BaseAddress = new Uri("http://localhost:5050/");
+#else
+            this.HttpClient.BaseAddress = new Uri("http://gainzville.co.uk:5050/");
+#endif
         }
 
         public HttpClient HttpClient { get; }
