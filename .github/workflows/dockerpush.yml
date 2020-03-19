@@ -40,7 +40,7 @@ jobs:
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE}}
+          privateKey: ${{ secrets.DROPLET_PRIVATE }}
     
       - name: Clean server container
         uses: garygrossgarten/github-action-ssh@release
@@ -49,7 +49,35 @@ jobs:
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE}}
+          privateKey: ${{ secrets.DROPLET_PRIVATE }}
+        
+      - name: Push client image
+        run: |
+          docker login docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+          docker push docker.pkg.github.com/gainz-ville/gainzville/${CLIENT_IMAGE_NAME}:latest
+        
+      - name: Push server image
+        run: |
+          docker login docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+          docker push docker.pkg.github.com/gainz-ville/gainzville/${SERVER_IMAGE_NAME}:latest
+          
+      - name: Pull client image
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: docker pull docker.pkg.github.com/gainz-ville/gainzville/${CLIENT_IMAGE_NAME}:latest
+          host: ${{ secrets.DROPLET_HOST }}
+          username: root
+          passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
+          privateKey: ${{ secrets.DROPLET_PRIVATE }}
+    
+      - name: Pull server image
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: docker pull docker.pkg.github.com/gainz-ville/gainzville/${SERVER_IMAGE_NAME}:latest
+          host: ${{ secrets.DROPLET_HOST }}
+          username: root
+          passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
+          privateKey: ${{ secrets.DROPLET_PRIVATE }}
 
       - name: Run client container
         uses: garygrossgarten/github-action-ssh@release
@@ -58,7 +86,7 @@ jobs:
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE}}
+          privateKey: ${{ secrets.DROPLET_PRIVATE }}
     
       - name: Run server container
         uses: garygrossgarten/github-action-ssh@release
@@ -67,7 +95,7 @@ jobs:
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE}}
+          privateKey: ${{ secrets.DROPLET_PRIVATE }}
       
       
 
