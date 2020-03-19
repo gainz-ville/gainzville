@@ -42,16 +42,7 @@ jobs:
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
           privateKey: ${{ secrets.DROPLET_PRIVATE }}
-    
-      - name: Clean server container
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: docker ps -q --filter "name=$SERVER_IMAGE_NAME" | grep -q . && docker stop $SERVER_IMAGE_NAME && docker rm -fv $SERVER_IMAGE_NAME && docker rmi -f $SERVER_IMAGE_NAME
-          host: ${{ secrets.DROPLET_HOST }}
-          username: root
-          passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE }}
-        
+          
       - name: Push client image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
@@ -66,42 +57,42 @@ jobs:
           docker tag $SERVER_IMAGE_NAME $SERVER_IMAGE_ID:$VERSION
           docker push $SERVER_IMAGE_ID:$VERSION
           
-      - name: Pull client image
-        uses: garygrossgarten/github-action-ssh@release
+      - name: Clean container
+        uses: appleboy/ssh-action@master
+        env:
+          CLIENT_IMAGE_NAME: $CLIENT_IMAGE_NAME
+          SERVER_IMAGE_NAME: $SERVER_IMAGE_NAME
         with:
-          command: docker pull docker.pkg.github.com/gainz-ville/gainzville/$CLIENT_IMAGE_NAME
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE }}
-    
-      - name: Pull server image
-        uses: garygrossgarten/github-action-ssh@release
+          key: ${{ secrets.DROPLET_PRIVATE }} 
+          script: |
+            docker ps -q --filter "name=$CLIENT_IMAGE_NAME" | grep -q . && docker stop $CLIENT_IMAGE_NAME && docker rm -fv $CLIENT_IMAGE_NAME && docker rmi -f $CLIENT_IMAGE_NAME
+            docker ps -q --filter "name=$SERVER_IMAGE_NAME" | grep -q . && docker stop $SERVER_IMAGE_NAME && docker rm -fv $SERVER_IMAGE_NAME && docker rmi -f $SERVER_IMAGE_NAME
+            
+      - name: Pull and run client
+        uses: appleboy/ssh-action@master
+        env:
+          CLIENT_IMAGE_NAME: $CLIENT_IMAGE_NAME
         with:
-          command: docker pull docker.pkg.github.com/gainz-ville/gainzville/$SERVER_IMAGE_NAME
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE }}
-
-      - name: Run client container
-        uses: garygrossgarten/github-action-ssh@release
+          key: ${{ secrets.DROPLET_PRIVATE }} 
+          script: |
+            docker pull docker.pkg.github.com/gainz-ville/gainzville/$CLIENT_IMAGE_NAME
+            docker run --name $CLIENT_IMAGE_NAME -p 80:80 -d $CLIENT_IMAGE_NAME
+            
+      - name: Pull and run server
+        uses: appleboy/ssh-action@master
+        env:
+          SERVER_IMAGE_NAME: $SERVER_IMAGE_NAME
         with:
-          command: docker run --name $CLIENT_IMAGE_NAME -p 80:80 -d $CLIENT_IMAGE_NAME
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE }}
-    
-      - name: Run server container
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: docker run --name $SERVER_IMAGE_NAME -p 5050:80 -d $SERVER_IMAGE_NAME
-          host: ${{ secrets.DROPLET_HOST }}
-          username: root
-          passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          privateKey: ${{ secrets.DROPLET_PRIVATE }}
-      
-      
-
-          
+          key: ${{ secrets.DROPLET_PRIVATE }} 
+          script: |
+            docker pull docker.pkg.github.com/gainz-ville/gainzville/$SERVER_IMAGE_NAME
+            docker run --name $SERVER_IMAGE_NAME -p 80:80 -d $SERVER_IMAGE_NAME
