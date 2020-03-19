@@ -60,6 +60,7 @@ jobs:
       - name: Clean container
         uses: appleboy/ssh-action@master
         with:
+          envs: CLIENT_IMAGE_NAME,SERVER_IMAGE_NAME
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
@@ -71,6 +72,7 @@ jobs:
       - name: Pull and run client
         uses: appleboy/ssh-action@master
         with:
+          envs: CLIENT_IMAGE_NAME
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
@@ -82,6 +84,7 @@ jobs:
       - name: Pull and run server
         uses: appleboy/ssh-action@master
         with:
+          envs: SERVER_IMAGE_NAME
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
