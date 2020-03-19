@@ -64,9 +64,9 @@ namespace Gainzville.Client.Services
                 new Profile
                 {
                     Name = "Michael Sansoni",
-                    DateOfBirth = new DateTime(1980, 1, 1),
+                    DateOfBirth = new DateTime(1993, 2, 28),
                     Aim = "To get no gainz",
-                    Height = 240
+                    Height = 197
                 },
             };
 
