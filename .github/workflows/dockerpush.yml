@@ -54,17 +54,17 @@ jobs:
       - name: Push client image
         run: |
           docker login docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-          docker push docker.pkg.github.com/gainz-ville/gainzville/${CLIENT_IMAGE_NAME}:latest
+          docker push ${CLIENT_IMAGE_NAME}
         
       - name: Push server image
         run: |
           docker login docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-          docker push docker.pkg.github.com/gainz-ville/gainzville/${SERVER_IMAGE_NAME}:latest
+          docker push ${SERVER_IMAGE_NAME}
           
       - name: Pull client image
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: docker pull docker.pkg.github.com/gainz-ville/gainzville/${CLIENT_IMAGE_NAME}:latest
+          command: docker pull docker.pkg.github.com/gainz-ville/gainzville/${CLIENT_IMAGE_NAME}
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
@@ -73,7 +73,7 @@ jobs:
       - name: Pull server image
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: docker pull docker.pkg.github.com/gainz-ville/gainzville/${SERVER_IMAGE_NAME}:latest
+          command: docker pull docker.pkg.github.com/gainz-ville/gainzville/${SERVER_IMAGE_NAME}
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
