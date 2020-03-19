@@ -53,12 +53,10 @@ jobs:
         
       - name: Push client image
         run: |
-          docker login docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
           docker push ${CLIENT_IMAGE_NAME}
         
       - name: Push server image
         run: |
-          docker login docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
           docker push ${SERVER_IMAGE_NAME}
           
       - name: Pull client image
