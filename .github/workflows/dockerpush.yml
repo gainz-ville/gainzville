@@ -57,17 +57,17 @@ jobs:
           docker tag $SERVER_IMAGE_NAME $SERVER_IMAGE_ID:$VERSION
           docker push $SERVER_IMAGE_ID:$VERSION
           
-      - name: Clean container
-        uses: appleboy/ssh-action@master
-        with:
-          envs: CLIENT_IMAGE_NAME,SERVER_IMAGE_NAME
-          host: ${{ secrets.DROPLET_HOST }}
-          username: root
-          passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          key: ${{ secrets.DROPLET_PRIVATE }} 
-          script: |
-            docker ps -q --filter "name=$CLIENT_IMAGE_NAME" | grep -q . && docker stop $CLIENT_IMAGE_NAME && docker rm -fv $CLIENT_IMAGE_NAME && docker rmi -f $CLIENT_IMAGE_NAME
-            docker ps -q --filter "name=$SERVER_IMAGE_NAME" | grep -q . && docker stop $SERVER_IMAGE_NAME && docker rm -fv $SERVER_IMAGE_NAME && docker rmi -f $SERVER_IMAGE_NAME
+#     - name: Clean container
+#        uses: appleboy/ssh-action@master
+#        with:
+#          envs: CLIENT_IMAGE_NAME,SERVER_IMAGE_NAME
+#          host: ${{ secrets.DROPLET_HOST }}
+#          username: root
+#          passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
+#          key: ${{ secrets.DROPLET_PRIVATE }} 
+#          script: |
+#            docker ps -q --filter "name=$CLIENT_IMAGE_NAME" | grep -q . && docker stop $CLIENT_IMAGE_NAME && docker rm -fv $CLIENT_IMAGE_NAME && docker rmi -f $CLIENT_IMAGE_NAME
+#            docker ps -q --filter "name=$SERVER_IMAGE_NAME" | grep -q . && docker stop $SERVER_IMAGE_NAME && docker rm -fv $SERVER_IMAGE_NAME && docker rmi -f $SERVER_IMAGE_NAME
             
       - name: Pull and run client
         uses: appleboy/ssh-action@master
