@@ -35,6 +35,9 @@ jobs:
       - name: Build server image
         run: docker build . --file DockerfileServer --tag $SERVER_IMAGE_NAME
                 
+      - name: Show Docker Images
+        run: docker images
+                
       - name: Clean client container
         uses: garygrossgarten/github-action-ssh@release
         with:
