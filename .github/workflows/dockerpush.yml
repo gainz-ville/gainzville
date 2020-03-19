@@ -56,14 +56,14 @@ jobs:
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
           CLIENT_IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$CLIENT_IMAGE_NAME
-          docker tag image $CLIENT_IMAGE_ID:$VERSION
+          docker tag image $CLIENT_IMAGE_NAME
           docker push $CLIENT_IMAGE_ID:$VERSION
         
       - name: Push server image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
           SERVER_IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$SERVER_IMAGE_NAME
-          docker tag image $SERVER_IMAGE_ID:$VERSION
+          docker tag image $SERVER_IMAGE_NAME
           docker push $SERVER_IMAGE_ID:$VERSION
           
       - name: Pull client image
