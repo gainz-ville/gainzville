@@ -72,12 +72,6 @@ namespace Gainzville.Server
                 app.UseBlazorDebugging();
             }
 
-            app.UseCors(policy =>
-                policy.WithOrigins("http://localhost", "http://gainzville.co.uk")
-                .AllowAnyMethod()
-                .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization)
-                .AllowCredentials());
-
             app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Client.Program>();
 
