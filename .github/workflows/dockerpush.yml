@@ -30,10 +30,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build client image
-        run: docker build . --file Dockerfile --tag $CLIENT_IMAGE_NAME
+        run: docker build . --file Dockerfile --tag $DOCKER_TAG/$CLIENT_IMAGE_NAME:$VERSION
 
       - name: Build server image
-        run: docker build . --file DockerfileServer --tag $SERVER_IMAGE_NAME
+        run: docker build . --file DockerfileServer --tag $DOCKER_TAG/$SERVER_IMAGE_NAME:$VERSION
                 
       - name: Show Docker Images
         run: docker images
@@ -50,14 +50,14 @@ jobs:
       - name: Push client image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          CLIENT_IMAGE_ID=$DOCKER_TAG/$CLIENT_IMAGE_NAME
-          docker push $CLIENT_IMAGE_NAME:$VERSION
+          CLIENT_TAG=$DOCKER_TAG/$CLIENT_IMAGE_NAME:$VERSION
+          docker push $CLIENT_TAG
         
       - name: Push server image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          SERVER_IMAGE_ID=$DOCKER_TAG/$SERVER_IMAGE_NAME
-          docker push $SERVER_IMAGE_NAME:$VERSION
+          SERVER_TAG=$DOCKER_TAG/$SERVER_IMAGE_NAME:$VERSION
+          docker push $SERVER_TAG
           
 #     - name: Clean container
 #        uses: appleboy/ssh-action@master
@@ -78,11 +78,11 @@ jobs:
           host: ${{ secrets.DROPLET_HOST }}
           username: root
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
-          key: ${{ secrets.DROPLET_PRIVATE }} 
+          key: ${{ secrets.DROPLET_PRIVATE }}
           script: |
             docker login docker.pkg.github.com --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
             docker pull $DOCKER_TAG/$CLIENT_IMAGE_NAME
-            docker run --name $DOCKER_TAG/$CLIENT_IMAGE_NAME -p 80:80 -d $CLIENT_IMAGE_NAME
+            docker run --name $DOCKER_TAG/$CLIENT_IMAGE_NAME -p 80:80 -d $DOCKER_TAG/$CLIENT_IMAGE_NAME
             
       - name: Pull and run server
         uses: appleboy/ssh-action@master
@@ -95,4 +95,4 @@ jobs:
           script: |
             docker login docker.pkg.github.com --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
             docker pull $DOCKER_TAG/$SERVER_IMAGE_NAME
-            docker run --name $DOCKER_TAG/$SERVER_IMAGE_NAME -p 5050:80 -d $SERVER_IMAGE_NAME
+            docker run --name $DOCKER_TAG/$SERVER_IMAGE_NAME -p 5050:80 -d $DOCKER_TAG/$SERVER_IMAGE_NAME
