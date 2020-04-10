@@ -1,14 +1,12 @@
 ﻿using Gainzville.Shared;
-using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Gainzville.Client.Services
+namespace Gainzville.Server.Services
 {
-    public class FakeDataService : IDataService
+    public class FakeDataService : IGainzService
     {
         public FakeDataService()
         {

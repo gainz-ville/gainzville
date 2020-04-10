@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Gainzville.Database;
-using Gainzville.Client.Services;
+
+using Gainzville.Server.Services;
 
 namespace Gainzville.Server.Controllers
 {
@@ -14,9 +10,9 @@ namespace Gainzville.Server.Controllers
     [ApiController]
     public class ProfilesController : ControllerBase
     {
-        private readonly IDataService dataService;
+        private readonly IGainzService dataService;
 
-        public ProfilesController(IDataService dataService)
+        public ProfilesController(IGainzService dataService)
         {
             this.dataService = dataService;
         }
