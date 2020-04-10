@@ -64,12 +64,16 @@ namespace Gainzville.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app,
-            IWebHostEnvironment env,
-            GainzDbContext context)
+            IWebHostEnvironment env)
         {
-            app.UseResponseCompression();
+            var devMode = this.Configuration.GetValue<bool>("DevMode");
+            if (!devMode)
+            {
+                var context = app.ApplicationServices.GetRequiredService<GainzDbContext>();
+                context.Database.Migrate();
+            }
 
-            context.Database.Migrate();
+            app.UseResponseCompression();
 
             if (env.IsDevelopment())
             {
