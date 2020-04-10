@@ -57,6 +57,7 @@ namespace Gainzville.Server
                 services.AddDbContext<GainzDbContext>(
                     options => options.UseSqlServer(connectionString),
                     ServiceLifetime.Scoped);
+                services.AddTransient<IGainzService, GainzDbService>();
             }
 
         }
