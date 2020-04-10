@@ -1,4 +1,3 @@
-using Gainzville.Client.Services;
 using Gainzville.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Net.Http.Headers;
 using System.Linq;
 using System;
+using Gainzville.Server.Services;
 
 namespace Gainzville.Server
 {
@@ -48,7 +47,7 @@ namespace Gainzville.Server
             {
                 Console.WriteLine("Running in Dev Mode.");
 
-                services.AddSingleton<IDataService, FakeDataService>();
+                services.AddSingleton<IGainzService, FakeDataService>();
             }
             else
             {
