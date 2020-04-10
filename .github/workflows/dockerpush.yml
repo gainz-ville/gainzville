@@ -49,7 +49,7 @@ jobs:
           SERVER_TAG=$DOCKER_TAG/$SERVER_IMAGE_NAME:$VERSION
           docker push $SERVER_TAG
           
-      - name: Clean container
+      - name: Clean images and containers
         uses: appleboy/ssh-action@master
         with:
           envs: CLIENT_IMAGE_NAME,SERVER_IMAGE_NAME,DOCKER_TAG
@@ -58,8 +58,19 @@ jobs:
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
           key: ${{ secrets.DROPLET_PRIVATE }} 
           script: |
-            docker ps -q --filter "name=$CLIENT_IMAGE_NAME" | grep -q . && docker stop $CLIENT_IMAGE_NAME && docker rm -fv $CLIENT_IMAGE_NAME && docker rmi -f $DOCKER_TAG/$CLIENT_IMAGE_NAME
-            docker ps -q --filter "name=$SERVER_IMAGE_NAME" | grep -q . && docker stop $SERVER_IMAGE_NAME && docker rm -fv $SERVER_IMAGE_NAME && docker rmi -f $DOCKER_TAG/$SERVER_IMAGE_NAME
+            if [ docker ps -q --filter "name=$CLIENT_IMAGE_NAME" ]
+            then
+              docker stop $CLIENT_IMAGE_NAME
+              docker rm -fv $CLIENT_IMAGE_NAME
+              docker rmi -f $DOCKER_TAG/$CLIENT_IMAGE_NAME
+            fi
+            
+            if [ docker ps -q --filter "name=$SERVER_IMAGE_NAME" ]
+            then
+              docker stop $SERVER_IMAGE_NAME
+              docker rm -fv $SERVER_IMAGE_NAME
+              docker rmi -f $DOCKER_TAG/$SERVER_IMAGE_NAME
+            fi
             
       - name: Pull and run client
         uses: appleboy/ssh-action@master
