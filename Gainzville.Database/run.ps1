@@ -10,3 +10,5 @@ docker run -p 1433:1433 -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=GainzPassword123!" -d
 
 # Run
 docker run -p 1433:1433 -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=GainzPassword123!" -d $tag
+
+docker push docker.pkg.github.com/gainz-ville/gainzville/$tag
