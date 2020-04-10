@@ -1,7 +1,5 @@
 ﻿using Gainzville.Shared;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gainzville.Client.Services
@@ -11,5 +9,7 @@ namespace Gainzville.Client.Services
         Task<WeatherForecast[]> GetWeatherForecasts();
 
         Task<IEnumerable<Profile>> GetProfiles();
+
+        Task<Profile> PostProfile(Profile profile);
     }
 }

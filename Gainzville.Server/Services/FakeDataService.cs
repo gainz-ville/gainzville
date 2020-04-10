@@ -2,48 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Gainzville.Server.Services
 {
     public class FakeDataService : IGainzService
     {
-        public FakeDataService()
-        {
-        }
-
-        public Task<WeatherForecast[]> GetWeatherForecasts()
-        {
-            var rand = new Random(50);
-            var result = new WeatherForecast[]
-            {
-                new WeatherForecast
-                {
-                    Date = DateTime.UtcNow - TimeSpan.FromSeconds(10),
-                    Summary = "Gainzy",
-                    TemperatureC = rand.Next(),
-                },
-                new WeatherForecast
-                {
-                    Date = DateTime.UtcNow - TimeSpan.FromSeconds(20),
-                    Summary = "Leafy",
-                    TemperatureC = rand.Next(),
-                },
-                new WeatherForecast
-                {
-                    Date = DateTime.UtcNow - TimeSpan.FromSeconds(30),
-                    Summary = "Snowy",
-                    TemperatureC = rand.Next(),
-                },
-            };
-
-            return Task.FromResult(result);
-        }
-
-        public Task<IEnumerable<Profile>> GetProfiles()
-        {
-            var rand = new Random(50);
-            var result = new Profile[]
+        private List<Profile> profiles = new List<Profile>
             {
                 new Profile
                 {
@@ -68,7 +32,53 @@ namespace Gainzville.Server.Services
                 },
             };
 
-            return Task.FromResult(result.AsEnumerable());
+        public FakeDataService()
+        {
+        }
+
+        public WeatherForecast[] GetWeatherForecasts()
+        {
+            var rand = new Random(50);
+            var result = new WeatherForecast[]
+            {
+                new WeatherForecast
+                {
+                    Date = DateTime.UtcNow - TimeSpan.FromSeconds(10),
+                    Summary = "Gainzy",
+                    TemperatureC = rand.Next(),
+                },
+                new WeatherForecast
+                {
+                    Date = DateTime.UtcNow - TimeSpan.FromSeconds(20),
+                    Summary = "Leafy",
+                    TemperatureC = rand.Next(),
+                },
+                new WeatherForecast
+                {
+                    Date = DateTime.UtcNow - TimeSpan.FromSeconds(30),
+                    Summary = "Snowy",
+                    TemperatureC = rand.Next(),
+                },
+            };
+
+            return result;
+        }
+
+        public IEnumerable<Profile> GetProfiles()
+        {
+            return this.profiles.AsEnumerable();
+        }
+
+        public Profile PostProfile(Profile profile)
+        {
+            if (profile == null)
+            {
+                throw new ArgumentNullException("Profile cannot be null");
+            }
+
+            this.profiles.Add(profile);
+
+            return profile;
         }
     }
 }

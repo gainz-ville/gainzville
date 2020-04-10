@@ -1,13 +1,12 @@
 ﻿using Gainzville.Shared;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Gainzville.Server.Services
 {
     public interface IGainzService
     {
-        public Task<WeatherForecast[]> GetWeatherForecasts();
+        public IEnumerable<Profile> GetProfiles();
 
-        public Task<IEnumerable<Profile>> GetProfiles();
+        public Profile PostProfile(Profile profile);
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Gainzville.Server.Services;
+using Gainzville.Shared;
 
 namespace Gainzville.Server.Controllers
 {
@@ -19,10 +21,10 @@ namespace Gainzville.Server.Controllers
 
         // GET: api/Profiles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shared.Profile>>> GetProfile()
+        public async Task<ActionResult<IEnumerable<Profile>>> GetProfile()
         {
             //return await _context.Profile.AsNoTracking().Select(o => o.ToModel()).ToListAsync();
-            return new ActionResult<IEnumerable<Shared.Profile>>(await this.dataService.GetProfiles());
+            return new ActionResult<IEnumerable<Profile>>(this.dataService.GetProfiles());
         }
 
         //// GET: api/Profiles/5
@@ -74,14 +76,16 @@ namespace Gainzville.Server.Controllers
         //// POST: api/Profiles
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for
         //// more details see https://aka.ms/RazorPagesCRUD.
-        //[HttpPost]
-        //public async Task<ActionResult<Profile>> PostProfile(Profile profile)
-        //{
-        //    _context.Profile.Add(profile);
-        //    await _context.SaveChangesAsync();
+        [HttpPost]
+        public async Task<ActionResult<Profile>> PostProfile(Profile profile)
+        {
+            if (profile == null)
+            {
+                return BadRequest("Profile cannot be null");
+            }
 
-        //    return CreatedAtAction("GetProfile", new { id = profile.ProfileId }, profile);
-        //}
+            return new ActionResult<Profile>(this.dataService.PostProfile(profile));
+        }
 
         //// DELETE: api/Profiles/5
         //[HttpDelete("{id}")]

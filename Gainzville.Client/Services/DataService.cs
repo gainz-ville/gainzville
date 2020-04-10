@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -30,6 +29,16 @@ namespace Gainzville.Client.Services
         public Task<IEnumerable<Profile>> GetProfiles()
         {
             return this.HttpClient.GetJsonAsync<IEnumerable<Profile>>("api/profiles");
+        }
+
+        public Task<Profile> PostProfile(Profile profile)
+        {
+            if (profile == null)
+            {
+                throw new ArgumentNullException("Profile cannot be null");
+            }
+
+            return this.HttpClient.PostJsonAsync<Profile>("api/postprofile", profile);
         }
     }
 }
