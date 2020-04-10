@@ -11,12 +11,8 @@ namespace Gainzville.Server.Services
 
         public GainzDbService(GainzDbContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException("Context cannot be null");
-            }
-            
-            this.repository = context;
+            this.repository = context ??
+                throw new ArgumentNullException("Context cannot be null.");
         }
 
         public IEnumerable<Shared.Profile> GetProfiles()
@@ -37,12 +33,10 @@ namespace Gainzville.Server.Services
                 CreatedDate = profile.CreatedDate
             };
 
-            this.repository.Profile.Add(newProfile);
+            var entry = this.repository.Profile.Add(newProfile);
             this.repository.SaveChanges();
 
-            return this.repository.Profile
-                .FirstOrDefault(x => x.Id == newProfile.Id)
-                .ToModel();
+            return entry.Entity.ToModel();
         }
     }
 }

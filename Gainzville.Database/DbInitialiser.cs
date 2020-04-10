@@ -12,10 +12,8 @@ namespace Gainzville.Database
     /// </summary>
     public static class DbInitialiser
     {
-        public static void Initialise(GainzDbContext context, IConfiguration configuration)
+        public static void Initialise(this GainzDbContext context)
         {
-            context.Database.EnsureCreated();
-
             if (context.Profile.Any())
             {
                 return;

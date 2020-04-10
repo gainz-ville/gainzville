@@ -1,17 +1,17 @@
-using Gainzville.Database;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Linq;
-using System;
-using Gainzville.Server.Services;
-
 namespace Gainzville.Server
 {
+    using Gainzville.Database;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.ResponseCompression;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using System.Linq;
+    using System;
+    using Gainzville.Server.Services;
+
     public class Startup
     {
         /// <summary>
@@ -72,6 +72,7 @@ namespace Gainzville.Server
             {
                 var context = app.ApplicationServices.GetRequiredService<GainzDbContext>();
                 context.Database.Migrate();
+                context.Initialise();
             }
 
             app.UseResponseCompression();
