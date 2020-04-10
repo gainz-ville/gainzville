@@ -58,19 +58,13 @@ jobs:
           passphrase: ${{ secrets.DROPLET_PASSPHRASE }}
           key: ${{ secrets.DROPLET_PRIVATE }} 
           script: |
-            if [ docker ps -q --filter "name=$CLIENT_IMAGE_NAME" ]
-            then
-              docker stop $CLIENT_IMAGE_NAME
-              docker rm -fv $CLIENT_IMAGE_NAME
-              docker rmi -f $DOCKER_TAG/$CLIENT_IMAGE_NAME
-            fi
-            
-            if [ docker ps -q --filter "name=$SERVER_IMAGE_NAME" ]
-            then
-              docker stop $SERVER_IMAGE_NAME
-              docker rm -fv $SERVER_IMAGE_NAME
-              docker rmi -f $DOCKER_TAG/$SERVER_IMAGE_NAME
-            fi
+              docker stop $CLIENT_IMAGE_NAME || true
+              docker rm -fv $CLIENT_IMAGE_NAME || true
+              docker rmi -f $DOCKER_TAG/$CLIENT_IMAGE_NAME || true
+
+              docker stop $SERVER_IMAGE_NAME || true
+              docker rm -fv $SERVER_IMAGE_NAME || true
+              docker rmi -f $DOCKER_TAG/$SERVER_IMAGE_NAME || true
             
       - name: Pull and run client
         uses: appleboy/ssh-action@master
